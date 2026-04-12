@@ -1,0 +1,16 @@
+# 与 .env.local 一致：用户 postgres / 密码 postgres / 库 verceldb
+#
+# 若应用报 28P01「password authentication failed for user postgres」：
+# 多半是卷 pgdata 在「别的密码」下初始化过；Postgres 不会随 POSTGRES_PASSWORD 改旧数据。
+# 开发环境可清空卷后重建（会删除该卷内所有数据）：
+#   docker stop postgres && docker rm postgres && docker volume rm pgdata && bash docker/postgres
+
+docker run -d \
+  --name postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_DB=verceldb \
+  -e TZ=Asia/Singapore \
+  -p 127.0.0.1:5432:5432 \
+  -v pgdata:/var/lib/postgresql \
+  postgres:18.0
