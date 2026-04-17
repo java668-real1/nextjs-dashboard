@@ -8,6 +8,7 @@ import {
 } from "./definitions";
 import { sql } from "./db";
 import { formatCurrency } from "./utils";
+import { notFound } from 'next/navigation';
 
 export async function fetchRevenue() {
   try {
@@ -151,7 +152,6 @@ export async function fetchInvoiceById(id: string) {
       FROM invoices
       WHERE invoices.id = ${id};
     `;
-
     const invoice = data.map((invoice) => ({
       ...invoice,
       // Convert amount from cents to dollars
